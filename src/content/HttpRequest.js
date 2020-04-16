@@ -200,9 +200,11 @@ gContactSync.HttpRequest.prototype = {
         // this may be called after the address book window is closed
         // if the window is closed there will be an exception thrown as
         // explained here - https://www.mozdev.org/bugs/show_bug.cgi?id=20527
-        gContactSync.LOGGER.VERBOSE_LOG(" * The request has finished with status: " +
+        let msg = " * The request has finished with status: " +
                                             httpReq.status + "/" +
-                                            (httpReq.status ? httpReq.statusText : "offline"));
+                                            (httpReq.status ? httpReq.statusText : "offline");
+        if (httpReq.status) msg += "(" + httpReq.responseText + ")";
+        gContactSync.LOGGER.VERBOSE_LOG(msg);
         if (httpReq.status) {
           gContactSync.LOGGER.VERBOSE_LOG(" * Headers:\n" +
                                               httpReq.getAllResponseHeaders() + "\n");

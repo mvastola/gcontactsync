@@ -37,6 +37,14 @@
 /** Containing object for gContactSync */
 var gContactSync = gContactSync || {};
 
+const { OAuth2Providers } = ChromeUtils.import('resource:///modules/OAuth2Providers.jsm');
+const [ 
+  GOOGLE_APP_KEY, 
+  GOOGLE_APP_SECRET, 
+  GOOGLE_AUTH_URI, 
+  GOOGLE_TOKEN_URI 
+] = OAuth2Providers.getIssuerDetails('accounts.google.com');
+
 window.addEventListener("load",
   /** Initializes the gdata class when the window has finished loading */
   function gCS_gdataLoadListener() {
@@ -52,16 +60,19 @@ false);
  * @class
  */
 gContactSync.gdata = {
-  CLIENT_ID:                  "874495714229-5m7jmsjebv6nrf61q14siutq43bi1gvt.apps.googleusercontent.com",
-  CLIENT_SECRET:              "vayAK3lt9f4tMcMK1HZ4XZqG",
+  CLIENT_ID:                  GOOGLE_APP_KEY,
+  CLIENT_SECRET:              GOOGLE_APP_SECRET,
   REDIRECT_URI:               "urn:ietf:wg:oauth:2.0:oob",
   REDIRECT_TITLE:             "Success code=",
   RESPONSE_TYPE:              "code",
-  SCOPE:                      "https://www.google.com/m8/feeds",
+  SCOPE:                      "email profile openid https://www.google.com/m8/feeds",
   OAUTH_URL:                  "https://accounts.google.com/o/oauth2/auth",
+  //OAUTH_URL:                GOOGLE_AUTH_URI,
   TOKEN_REQUEST_URL:          "https://accounts.google.com/o/oauth2/token",
+  //TOKEN_REQUEST_URL:        GOOGLE_TOKEN_URI,
   TOKEN_REQUEST_TYPE:         "POST",
   TOKEN_REQUEST_GRANT_TYPE:   "authorization_code",
+  //REFRESH_REQUEST_URL:      "GOOGLE_TOKEN_URI",
   REFRESH_REQUEST_URL:        "https://accounts.google.com/o/oauth2/token",
   REFRESH_REQUEST_TYPE:       "POST",
   REFRESH_REQUEST_GRANT_TYPE: "refresh_token",
@@ -72,24 +83,6 @@ gContactSync.gdata = {
   AUTH_SUB_REVOKE_URL:        "https://www.google.com/accounts/AuthSubRevokeToken",
   AUTH_SUB_REVOKE_TYPE:       "GET",
   /**
-   * Returns an OAuth Client ID for Google (default unless overridden in config)
-   *
-   * @return {string} The Client ID.
-   */
-  getOAuthClientId: function () {
-    return gContactSync.Preferences.mSyncPrefs.googleAppClientId.value || gContactSync.gdata.CLIENT_ID;
-  }, 
-
-  /**
-   * Returns an OAuth Client Secret for Google (default unless overridden in config)
-   *
-   * @return {string} The Client Secret.
-   */
-  getOAuthClientSecret: function () {
-    return gContactSync.Preferences.mSyncPrefs.googleAppClientSecret.value || gContactSync.gdata.CLIENT_SECRET;
-  }, 
-
-  /**
    * Returns an OAuth URL for the given e-mail addres.
    *
    * @param aEmail {string} The e-mail address.
@@ -98,7 +91,7 @@ gContactSync.gdata = {
   getOAuthURL: function gdata_getOAuthURL(aEmail) {
     return gContactSync.gdata.OAUTH_URL +
            "?response_type=" + gContactSync.gdata.RESPONSE_TYPE +
-           "&client_id=" + this.getOAuthClientId() +
+           "&client_id=" + gContactSync.gdata.CLIENT_ID +
            "&redirect_uri=" + gContactSync.gdata.REDIRECT_URI +
            "&scope=" + gContactSync.gdata.SCOPE +
            "&login_hint=" + aEmail;
