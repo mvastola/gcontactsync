@@ -219,7 +219,9 @@ gContactSync.Preferences = {
     numRelations:             new gContactSync.Pref("numRelations",              "int", 6),
     numLogsInRotation:        new gContactSync.Pref("numLogsInRotation",         "int", 3),
     selectFirstCardAfterDrop: new gContactSync.Pref("selectFirstCardAfterDrop", "bool", true),
-    notesHeight:              new gContactSync.Pref("notesHeight",              "string", "")
+    notesHeight:              new gContactSync.Pref("notesHeight",              "string", ""),
+    googleAppClientId:        new gContactSync.Pref("googleAppClientId",        "string", "874495714229-5m7jmsjebv6nrf61q14siutq43bi1gvt.apps.googleusercontent.com"),
+    googleAppClientSecret:    new gContactSync.Pref("googleAppClientSecret",     "string", "vayAK3lt9f4tMcMK1HZ4XZqG"),
   },
   /**
    * Gets a preference given its branch, name, and type

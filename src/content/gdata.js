@@ -72,6 +72,24 @@ gContactSync.gdata = {
   AUTH_SUB_REVOKE_URL:        "https://www.google.com/accounts/AuthSubRevokeToken",
   AUTH_SUB_REVOKE_TYPE:       "GET",
   /**
+   * Returns an OAuth Client ID for Google (default unless overridden in config)
+   *
+   * @return {string} The Client ID.
+   */
+  getOAuthClientId: function () {
+    return gContactSync.Preferences.mSyncPrefs.googleAppClientId.value || gContactSync.gdata.CLIENT_ID;
+  }, 
+
+  /**
+   * Returns an OAuth Client Secret for Google (default unless overridden in config)
+   *
+   * @return {string} The Client Secret.
+   */
+  getOAuthClientSecret: function () {
+    return gContactSync.Preferences.mSyncPrefs.googleAppClientSecret.value || gContactSync.gdata.CLIENT_SECRET;
+  }, 
+
+  /**
    * Returns an OAuth URL for the given e-mail addres.
    *
    * @param aEmail {string} The e-mail address.
@@ -80,7 +98,7 @@ gContactSync.gdata = {
   getOAuthURL: function gdata_getOAuthURL(aEmail) {
     return gContactSync.gdata.OAUTH_URL +
            "?response_type=" + gContactSync.gdata.RESPONSE_TYPE +
-           "&client_id=" + gContactSync.gdata.CLIENT_ID +
+           "&client_id=" + this.getOAuthClientId() +
            "&redirect_uri=" + gContactSync.gdata.REDIRECT_URI +
            "&scope=" + gContactSync.gdata.SCOPE +
            "&login_hint=" + aEmail;

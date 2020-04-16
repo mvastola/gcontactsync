@@ -78,8 +78,8 @@ gContactSync.GHttpRequest = function gCS_GHttpRequest(aType, aAuth, aUrl, aBody,
     this.mUrl         = gContactSync.gdata.TOKEN_REQUEST_URL;
     this.mType        = gContactSync.gdata.TOKEN_REQUEST_TYPE;
     this.addParameter("code", aAuth);
-    this.addParameter("client_id", gContactSync.gdata.CLIENT_ID);
-    this.addParameter("client_secret", gContactSync.gdata.CLIENT_SECRET);
+    this.addParameter("client_id", gContactSync.gdata.getOAuthClientId());
+    this.addParameter("client_secret", gContactSync.gdata.getOAuthClientSecret());
     this.addParameter("redirect_uri", gContactSync.gdata.REDIRECT_URI);
     this.addParameter("grant_type", gContactSync.gdata.TOKEN_REQUEST_GRANT_TYPE);
     break;
@@ -89,8 +89,8 @@ gContactSync.GHttpRequest = function gCS_GHttpRequest(aType, aAuth, aUrl, aBody,
     this.mUrl         = gContactSync.gdata.REFRESH_REQUEST_URL;
     this.mType        = gContactSync.gdata.REFRESH_REQUEST_TYPE;
     this.addParameter("refresh_token", aAuth);
-    this.addParameter("client_id", gContactSync.gdata.CLIENT_ID);
-    this.addParameter("client_secret", gContactSync.gdata.CLIENT_SECRET);
+    this.addParameter("client_id", gContactSync.gdata.getOAuthClientId());
+    this.addParameter("client_secret", gContactSync.gdata.getOAuthClientSecret());
     this.addParameter("grant_type", gContactSync.gdata.REFRESH_REQUEST_GRANT_TYPE);
     break;
   case "AUTHENTICATE":
